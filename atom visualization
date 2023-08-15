@@ -1,0 +1,99 @@
+
+#include<windows.h>
+
+#include<GL/glu.h>
+#include<GL/glut.h>
+#include<GL/gl.h>
+#include<math.h>
+GLuint list1;
+int flag = 0;
+float xx, yy, ang, x, y, a = 10;
+//float ang=10;
+int i, ii;
+float x1 = 1, x2 = .0, x3 = .0;
+void slep()
+{
+    long i;
+    for (i = 0;i < 8900000;i++) {}
+}
+void display()
+{
+
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glColor3f(x1, x2, x3);
+    glLoadIdentity();
+    glutWireTorus(.05, 0, 40, 15);
+
+    glColor3f(1, 1, 1);
+    for (i = 0;i < 10;i++)
+    {
+        xx = .1 * i;
+        for (ii = 0;ii < 360;ii++)
+        {
+            glLoadIdentity();
+            glBegin(GL_POINTS);
+            ang = ii * ((6.28) / 360);
+            x = xx * cos(ang);
+            y = xx * sin(ang);
+            glVertex2f(x, y);
+            glEnd();
+        }
+    }
+
+    flag++;
+
+    glColor3f(x1, x2, x3);
+    GLuint list = glGenLists(1);
+    glNewList(list, GL_COMPILE);
+    glColor3f(.2, .67, .5);
+    glutWireTorus(.02, 0, 2, 10);
+    glEndList();
+
+    for (i = 1;i < 9;i++)
+    {
+        xx = .1 * i;yy = .1 * i;
+        ang = (a + ang + 5);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glRotatef(ang, 0, 0, 1);
+        glTranslatef(xx, 0, 0);
+        glutWireTorus(.02, 0, 1, 10);
+        glCallList(list);
+
+        slep();
+
+
+
+    }
+
+
+    a = a + 1;
+    glutPostRedisplay();
+    glFlush();
+
+
+}
+
+
+
+int main(int argc, char** argv)
+{
+    glutInit(&argc, argv);
+
+    glutInitWindowSize(700, 700);
+    glutInitWindowPosition(10, 10);
+
+    glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);
+
+    glutCreateWindow("atom ");
+    glutDisplayFunc(display);
+
+
+
+
+    glutMainLoop();
+
+
+    return 0;
+}
