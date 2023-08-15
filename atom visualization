@@ -1,6 +1,7 @@
+//Make sure that you have installed Open GL libraries to run this code 
+
 
 #include<windows.h>
-
 #include<GL/glu.h>
 #include<GL/glut.h>
 #include<GL/gl.h>
